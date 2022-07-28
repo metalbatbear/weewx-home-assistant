@@ -1,5 +1,5 @@
-# Weewx OpenHAB
-*Pull sensor data from OpenHAB (API) into weewx (StdService)*
+# WeeWX OpenHAB
+*Pull sensor data from OpenHAB (API) into WeeWX (StdService)*
 
 ## Manual installation instructions
 1. Put the extension file in your user dir, e.g., for Debian package installations:
@@ -36,7 +36,7 @@
                 extraTemp2 = C
     ```
 
-4. Restart weewx, e.g., for Debian package installations:
+4. Restart WeeWX, e.g., for Debian package installations:
 
     ```
     sudo systemctl restart weewx
