@@ -20,7 +20,7 @@
 
 3. Add the configuration:
 
-    First provide the address for your OpenHAB server API.  Then, for each OpenHAB sensor value (either temperature or humidity) you want to pull into weewx, add a definition in the form of `weewx_key = OpenHAB_item` in the [[[Mappings]]] section.  If your OpenHAB installation provides temperature data in C, add definition for each weewx temperature key you're pulling in the [[[Units]]] section (this is optional if you do not need to convert).  E.g.:
+    First provide the address for your OpenHAB server API.  Then, for each OpenHAB sensor value (either temperature or humidity) you want to pull into WeeWX, add a definition in the form of `weewx_key = OpenHAB_item` in the [[[Mappings]]] section.  If your OpenHAB installation provides temperature data in C, add definition for each WeeWX temperature key you're pulling in the [[[Units]]] section (this is optional if you do not need to convert).  E.g.:
 
     ```
     [StdService]
