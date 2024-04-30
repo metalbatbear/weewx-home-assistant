@@ -9,20 +9,20 @@ import weeutil.logger
 import logging
 log = logging.getLogger(__name__)
 
-class AddOpenHAB(StdService):
+class AddHomeAssistant(StdService):
 
     def __init__(self, engine, config_dict):
-        super(AddOpenHAB, self).__init__(engine, config_dict)
+        super(AddHomeAssistant, self).__init__(engine, config_dict)
         self.bind(weewx.NEW_ARCHIVE_RECORD, self.new_archive_record)
         self.last_total = None
 
         try:
-            self.svc_dict = config_dict['StdService']['AddOpenHAB']
+            self.svc_dict = config_dict['StdService']['AddHomeAssistant']
         except KeyError as e:
-            log.error("Will not pull from OpenHAB API: Missing option %s" % e)
+            log.error("Will not pull from Home Assistant API: Missing option %s" % e)
             return
 
-        log.debug("Using OpenHAB API url %s" % self.svc_dict['openhab_api_url'])
+        log.debug("Using Home Assistant API url %s" % self.svc_dict['home-assistant_api_url'])
 
     def query_api(self, item_name):
         packet = dict()
@@ -30,12 +30,18 @@ class AddOpenHAB(StdService):
         packet["usUnits"] = weewx.US
 
         # contruct query
-        query_url = self.svc_dict['openhab_api_url'] + item_name
+        query_url = self.svc_dict['home-assistant_api_url'] + item_name
         log.debug("Using query url %s" % query_url)
+
+        # assemble headers
+        headers = {
+            'Authorization': 'Bearer ' + self.svc_dict['home-assistant_api_token'],
+            'content-type': 'application/json',
+        }
 
         # send query
         try:
-            response = requests.get(query_url)
+            response = requests.get(query_url, headers=headers)
         except requests.Timeout as error:
             log.error("Message: %s" % error)
         except requests.RequestException as error:
