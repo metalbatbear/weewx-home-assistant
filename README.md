@@ -26,6 +26,7 @@
     [StdService]
         [[AddHomeAssistant]]
             home-assistant_api_url = http://my.home-assistant.server:8123/api/states/
+            home-assistant_api_token = token_obtained_from_home-assistant_settings_page
             [[[Mappings]]]
                 extraTemp1 = sensor.drawingroom_thermostat_air_temperature
                 extraHumid1 = sensor.drawingroom_thermostat_humidity
