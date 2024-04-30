@@ -1,11 +1,11 @@
-# WeeWX OpenHAB
-*Pull sensor data from OpenHAB (API) into WeeWX (StdService)*
+# WeeWX Home Assistant
+*Pull sensor data from Home Assistant (API) into WeeWX (StdService)*
 
 ## Manual installation instructions
 1. Put the extension file in your user dir, e.g., for Debian package installations:
 
     ```
-    cp openhab.py /usr/share/weewx/user/
+    cp home-assistant.py /usr/share/weewx/user/
     ```
 
 2. Add the service:
@@ -14,26 +14,26 @@
     [Engine]
         [[Services]]
             ...
-            data_services = user.openhab.AddOpenHAB
+            data_services = user.home-assistant.AddHomeAssistant
             ...
     ```
 
 3. Add the configuration:
 
-    First provide the address for your OpenHAB server API.  Then, for each OpenHAB sensor value (either temperature or humidity) you want to pull into WeeWX, add a definition in the form of `weewx_key = OpenHAB_item` in the [[[Mappings]]] section.  If your OpenHAB installation provides temperature data in C, add definition for each WeeWX temperature key you're pulling in the [[[Units]]] section (this is optional if you do not need to convert).  E.g.:
+    First provide the address for your Home Assistant server API.  Then, for each Home Assistant sensor value (either temperature or humidity) you want to pull into WeeWX, add a definition in the form of `weewx_key = HomeAssistant_item` in the [[[Mappings]]] section.  If your Home Assistant installation provides temperature data in C, add definition for each WeeWX temperature key you're pulling in the [[[Units]]] section (this is optional if you do not need to convert).  E.g.:
 
     ```
     [StdService]
-        [[AddOpenHAB]]
-            openhab_api_url = http://my.openhab.server:8080/rest/items/
+        [[AddHomeAssistant]]
+            home-assistant_api_url = http://my.home-assistant.server:8123/api/states/
             [[[Mappings]]]
-                extraTemp1 = ThermostatDrawingRoom_Sensortemperature
-                extraHumid1 = ThermostatDrawingRoom_Sensorrelativehumidity
-                extraTemp2 = ThermostatOutdoorGarden_Sensortemperature
-                extraHumid2 = ThermostatOutdoorGarden_Sensorrelativehumidity
+                extraTemp1 = sensor.drawingroom_thermostat_air_temperature
+                extraHumid1 = sensor.drawingroom_thermostat_humidity
+                extraTemp2 = sensor.outdoorgarden_thermostat_air_temperature
+                extraHumid2 = sensor.outdoorgarden_thermostat_humidity
             [[[Units]]]
-                extraTemp1 = C
-                extraTemp2 = C
+                extraTemp1 = F
+                extraTemp2 = F
     ```
 
 4. Restart WeeWX, e.g., for Debian package installations:
