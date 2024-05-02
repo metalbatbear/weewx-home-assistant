@@ -48,9 +48,14 @@ class AddHomeAssistant(StdService):
             log.error("RequestException: %s" % error)
 
         # extract value
-        data = response.json()
-        packet = data["state"]
-        log.debug("%s: %s" % (item_name, packet))
+        try:
+            data = response.json()
+        except:
+            packet = 'null'
+            log.error("Cannot obtain data for " + item_name)
+        else:
+            packet = data["state"]
+            log.debug("%s: %s" % (item_name, packet))
 
         return packet
 
@@ -60,6 +65,13 @@ class AddHomeAssistant(StdService):
         for key in self.svc_dict['Mappings']:
             # strip anything after the first set of digits
             results = re.findall('\d+', self.query_api(self.svc_dict['Mappings'][key]))
+
+            # check that the HA system returned a valid result
+            try:
+                result = float(results[0])
+            except:
+                break
+
             # if a unit C specified, convert; otherwise assume F
             try:
                 unit = self.svc_dict['Units'][key]
